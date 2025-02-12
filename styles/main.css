@@ -563,6 +563,8 @@ html, body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Добавляем плавный скролл */
@@ -582,4 +584,82 @@ html {
 .hero::-webkit-scrollbar-thumb {
     background-color: var(--neon-green);
     border-radius: 3px;
+}
+
+/* Фиксим контейнер hero */
+.hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Уменьшаем размеры и отступы */
+.pepe-container {
+    width: 150px;
+    margin: 0.5rem auto;
+}
+
+.glitch-text {
+    font-size: 2.5rem;
+    margin: 0.25rem 0;
+}
+
+.subtitle {
+    margin: 0.25rem 0;
+}
+
+/* Оптимизируем таймер */
+.cyber-timer {
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    width: 90%;
+    max-width: 500px;
+}
+
+/* Компактный roadmap */
+#roadmap {
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.roadmap-title {
+    margin: 0.5rem 0;
+}
+
+.roadmap-grid {
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.roadmap-card {
+    padding: 1rem;
+}
+
+/* Компактный footer */
+footer {
+    padding: 0.5rem;
+    margin-top: 0;
+}
+
+.footer-content {
+    gap: 1rem;
+}
+
+/* Медиа-запросы */
+@media (max-height: 800px) {
+    .pepe-container {
+        width: 120px;
+    }
+    
+    .glitch-text {
+        font-size: 2rem;
+    }
+    
+    .time {
+        font-size: 2rem;
+    }
 } 
