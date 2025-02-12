@@ -44,30 +44,27 @@ function initializeTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Переменная для хранения разницы между серверным и локальным временем
-    let serverOffset = 0;
-    let timerInterval = null;
-
     // Целевая дата начала отсчета (74 часа)
-    const targetDate = new Date("2024-02-27T00:00:00Z").getTime();
-    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
-    const endDate = targetDate + DURATION;
+    const targetDate = luxon.DateTime.fromISO("2024-02-27T00:00:00Z");
+    const endDate = targetDate.plus({ hours: 74 });
+    let timeoutId = null;
 
     function updateDisplay() {
-        // Используем синхронизированное время
-        const now = Date.now() + serverOffset;
+        const now = luxon.DateTime.utc();
         
         // Если время еще не началось
         if (now < targetDate) {
             hoursElement.textContent = '74';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
+            timeoutId = setTimeout(updateDisplay, 1000);
             return;
         }
 
-        const timeLeft = Math.max(0, endDate - now);
-
-        if (timeLeft <= 0) {
+        // Вычисляем оставшееся время
+        const diff = endDate.diff(now, ['hours', 'minutes', 'seconds']);
+        
+        if (diff.as('seconds') <= 0) {
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -75,54 +72,28 @@ function initializeTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
             return;
         }
 
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        const hours = Math.floor(diff.as('hours'));
+        const minutes = Math.floor(diff.minutes);
+        const seconds = Math.floor(diff.seconds);
 
         hoursElement.textContent = hours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+        // Рекурсивно вызываем функцию через 1000 мс
+        timeoutId = setTimeout(updateDisplay, 1000);
     }
 
-    // Функция для синхронизации времени с сервером
-    function synchronizeTime() {
-        fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
-            .then(response => response.json())
-            .then(data => {
-                const serverTime = new Date(data.utc_datetime).getTime();
-                const localTime = Date.now();
-                serverOffset = serverTime - localTime;
-                
-                // Запускаем таймер после синхронизации
-                updateDisplay();
-                if (!timerInterval) {
-                    timerInterval = setInterval(updateDisplay, 1000);
-                }
-            })
-            .catch(error => {
-                console.error("Time sync failed, using local time:", error);
-                updateDisplay();
-                if (!timerInterval) {
-                    timerInterval = setInterval(updateDisplay, 1000);
-                }
-            });
-    }
+    // Запускаем обновление
+    updateDisplay();
 
-    // Запускаем синхронизацию времени
-    synchronizeTime();
-
-    // Периодически синхронизируем время (каждые 5 минут)
-    setInterval(synchronizeTime, 5 * 60 * 1000);
-
+    // Возвращаем функцию очистки
     return () => {
-        if (timerInterval) {
-            clearInterval(timerInterval);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
         }
     };
 }
