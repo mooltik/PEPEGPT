@@ -44,25 +44,17 @@ function initializeTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Целевая дата начала отсчета (74 часа)
-    const targetDate = luxon.DateTime.fromISO("2024-02-27T00:00:00Z");
+    // Устанавливаем время начала на текущий момент
+    const now = luxon.DateTime.utc();
+    const targetDate = now;
     const endDate = targetDate.plus({ hours: 74 });
     let timeoutId = null;
 
     function updateDisplay() {
-        const now = luxon.DateTime.utc();
+        const currentTime = luxon.DateTime.utc();
         
-        // Если время еще не началось
-        if (now < targetDate) {
-            hoursElement.textContent = '74';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
-            timeoutId = setTimeout(updateDisplay, 1000);
-            return;
-        }
-
         // Вычисляем оставшееся время
-        const diff = endDate.diff(now, ['hours', 'minutes', 'seconds']);
+        const diff = endDate.diff(currentTime, ['hours', 'minutes', 'seconds']);
         
         if (diff.as('seconds') <= 0) {
             hoursElement.textContent = '00';
