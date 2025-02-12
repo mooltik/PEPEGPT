@@ -5,34 +5,31 @@
     --cyber-blue: #00ffff;
 }
 
-body {
+/* Базовые стили */
+html, body {
     margin: 0;
     padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
     background-color: var(--dark-bg);
     color: white;
     font-family: 'Courier New', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
 }
 
+/* Основной контейнер */
 .hero {
-    position: relative;
-    text-align: center;
-    padding: 2rem;
-    z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    gap: 2rem;
-    overflow-y: auto;
+    padding: 2rem;
+    gap: 3rem;
 }
 
+/* Пепе */
 .pepe-container {
     width: 800px;
-    margin: 2rem auto;
-    position: relative;
+    margin: 0 auto;
 }
 
 .pepe-img {
@@ -40,79 +37,29 @@ body {
     height: auto;
     border-radius: 20px;
     box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-    transition: transform 0.3s ease;
 }
 
-.pepe-img:hover {
-    transform: none;
-    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-}
-
+/* Заголовки */
 .glitch-text {
     font-size: 3.5rem;
     color: var(--neon-green);
     text-shadow: 0 0 10px var(--neon-green);
-    margin: 2rem 0;
+    margin: 0;
 }
 
 .subtitle {
     font-size: 1.4rem;
     color: var(--cyber-blue);
-    margin: 1.5rem 0;
+    margin: 0;
 }
 
-.price-ticker {
-    background: rgba(0, 255, 0, 0.1);
-    padding: 1rem;
-    border-radius: 5px;
-    border: 1px solid var(--neon-green);
-    display: inline-block;
-    margin: 1rem 0;
-}
-
-.price {
-    color: var(--neon-green);
-    font-size: 1.5rem;
-    margin-right: 1rem;
-}
-
-.change {
-    color: var(--neon-pink);
-    font-size: 1.5rem;
-}
-
-.timer {
-    font-size: 3rem;
-    color: var(--neon-green);
-    margin: 2rem 0;
-    font-family: 'Digital', 'Courier New', monospace;
-    text-shadow: 0 0 10px var(--neon-green);
-}
-
-.neural-eyes {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 20px;
-    background: linear-gradient(90deg, #00ff00, #00ffff);
-    opacity: 0;
-    animation: neural-glow 2s infinite;
-}
-
-@keyframes neural-glow {
-    0% { opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { opacity: 0; }
-}
-
+/* Таймер */
 .cyber-timer {
-    margin: 2rem auto;
-    padding: 1.5rem;
     background: rgba(0, 255, 0, 0.05);
     border: 1px solid var(--neon-green);
     border-radius: 10px;
+    padding: 2rem;
+    width: 90%;
     max-width: 600px;
 }
 
@@ -131,319 +78,48 @@ body {
 }
 
 .time {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--neon-green);
     text-shadow: 0 0 10px var(--neon-green);
     font-family: 'Digital', 'Courier New', monospace;
 }
 
-.label {
-    font-size: 0.8rem;
-    color: var(--cyber-blue);
-    margin-top: 0.5rem;
-}
-
 .time-separator {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--neon-green);
     text-shadow: 0 0 10px var(--neon-green);
 }
 
-.contract-text {
+.label {
     font-size: 1rem;
     color: var(--cyber-blue);
+    margin-top: 0.5rem;
 }
 
+.contract-text {
+    font-size: 1.2rem;
+    color: var(--cyber-blue);
+    margin-top: 1rem;
+}
+
+/* Кнопка */
 .buy-button {
-    position: relative;
     padding: 1.2rem 3rem;
     font-size: 1.4rem;
     background: transparent;
     border: 2px solid var(--neon-green);
     color: var(--neon-green);
     cursor: pointer;
-    overflow: hidden;
-    transition: all 0.3s ease;
     font-family: 'Courier New', monospace;
-    margin: 2rem 0;
+    transition: all 0.3s ease;
 }
 
 .buy-button:hover {
     background: var(--neon-green);
     color: var(--dark-bg);
-    text-shadow: none;
 }
 
-.chart-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(0, 255, 0, 0.1) 50%, 
-        transparent 100%);
-    transform: translateX(-100%);
-    animation: chart-move 2s linear infinite;
-}
-
-@keyframes chart-move {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-/* Roadmap styles */
-#roadmap {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-.roadmap-title {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.roadmap-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    margin-bottom: 0;
-}
-
-.roadmap-card {
-    background: rgba(0, 255, 0, 0.05);
-    border: 1px solid var(--neon-green);
-    border-radius: 10px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.roadmap-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-}
-
-.roadmap-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.1), transparent);
-    transform: translateX(-100%);
-    animation: card-shine 3s infinite;
-}
-
-.card-content {
-    position: relative;
-    z-index: 1;
-}
-
-.card-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.roadmap-card h3 {
-    color: var(--neon-green);
-    margin: 0.5rem 0;
-    font-size: 1.5rem;
-}
-
-.roadmap-card p {
-    color: var(--cyber-blue);
-    margin: 0;
-    font-size: 1rem;
-}
-
-/* Footer styles */
-footer {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0;
-    background: rgba(0, 255, 0, 0.05);
-    border-top: 1px solid var(--neon-green);
-    position: relative;
-    bottom: 0;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.crystal-ball-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.crystal-emoji {
-    font-size: 2rem;
-    animation: float 3s ease-in-out infinite;
-}
-
-.prediction-text {
-    display: flex;
-    flex-direction: column;
-}
-
-.prediction-title {
-    color: var(--neon-green);
-    font-size: 1.2rem;
-}
-
-.prediction-subtitle {
-    color: var(--cyber-blue);
-    font-size: 0.9rem;
-}
-
-.social-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.fire-link {
-    color: var(--neon-green);
-    text-decoration: none;
-    font-size: 1.1rem;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.fire-link:hover {
-    color: var(--cyber-blue);
-    text-shadow: 0 0 10px var(--cyber-blue);
-}
-
-.fire-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--neon-green);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.fire-link:hover::after {
-    transform: scaleX(1);
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes card-shine {
-    0% { transform: translateX(-100%); }
-    20%, 100% { transform: translateX(100%); }
-}
-
-/* Responsive design */
-@media (max-width: 1024px) {
-    .pepe-container {
-        width: 600px;
-    }
-}
-
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .social-links {
-        justify-content: center;
-    }
-
-    .pepe-container {
-        width: 400px;
-    }
-
-    .glitch-text {
-        font-size: 2.5rem;
-        margin: 1.5rem 0;
-    }
-
-    .time {
-        font-size: 1.5rem;
-    }
-
-    .roadmap-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .hero {
-        gap: 1.5rem;
-        padding: 1rem;
-    }
-
-    .cyber-timer {
-        margin: 1.5rem auto;
-        padding: 1rem;
-    }
-
-    .buy-button {
-        margin: 1.5rem 0;
-        padding: 1rem 2.5rem;
-    }
-
-    #roadmap {
-        padding: 0.5rem;
-    }
-
-    .roadmap-grid {
-        padding: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .pepe-container {
-        width: 300px;
-    }
-}
-
-/* Добавляем стили для киберпанк элементов */
-.pepe-3d {
-    position: relative;
-}
-
-.cyber-circle,
-.cyber-lines,
-.cyber-triangles {
-    display: none;
-}
-
-.pepe-3d:hover {
-    transform: none;
-    filter: none;
-}
-
-.pepe-img:hover {
-    transform: none;
-    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-}
-
-/* Исправим z-index для матрицы */
+/* Матричный дождь */
 .matrix-rain {
     position: fixed;
     top: 0;
@@ -452,8 +128,6 @@ footer {
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    overflow: hidden;
-    will-change: transform;
 }
 
 .matrix-rain span {
@@ -461,210 +135,40 @@ footer {
     color: var(--neon-green);
     font-size: 14px;
     opacity: 0;
-    will-change: transform;
 }
 
-.particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.particle {
-    position: fixed;
-    will-change: transform;
-}
-
-@keyframes matrix-drop {
-    0% {
-        opacity: 1;
-        transform: translateY(-100vh);
-    }
-    90% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(100vh);
+/* Медиа-запросы */
+@media (max-width: 1024px) {
+    .pepe-container {
+        width: 600px;
     }
 }
 
-/* Улучшим читаемость текста */
-.subtitle, .contract-text {
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+@media (max-width: 768px) {
+    .pepe-container {
+        width: 400px;
+    }
+    
+    .glitch-text {
+        font-size: 2.5rem;
+    }
+    
+    .time {
+        font-size: 2.5rem;
+    }
+    
+    .time-separator {
+        font-size: 2.5rem;
+    }
 }
 
-/* Добавить стили для прелоадера */
-.preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--dark-bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loading-text {
-    color: var(--neon-green);
-    font-size: 1.5rem;
-    animation: flicker 2s infinite;
-}
-
-/* Скрываем прелоадер после загрузки */
-.preloader.hidden {
-    display: none;
-}
-
-/* Фиксим скролл и высоту */
-html, body {
-    overflow-x: hidden;
-    max-width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Добавляем плавный скролл */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Стили для скроллбара Chrome */
-.hero::-webkit-scrollbar {
-    width: 6px;
-}
-
-.hero::-webkit-scrollbar-track {
-    background: var(--dark-bg);
-}
-
-.hero::-webkit-scrollbar-thumb {
-    background-color: var(--neon-green);
-    border-radius: 3px;
-}
-
-/* Фиксим контейнер hero */
-.hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    gap: 0.5rem;
-    height: auto;
-    min-height: 0;
-    overflow-y: auto;
-}
-
-/* Компактный roadmap */
-#roadmap {
-    padding: 0.5rem;
-    margin: 0;
-}
-
-.roadmap-title {
-    margin: 0.5rem 0;
-}
-
-.roadmap-grid {
-    gap: 0.5rem;
-    padding: 0.5rem;
-}
-
-.roadmap-card {
-    padding: 1rem;
-}
-
-/* Компактный footer */
-footer {
-    padding: 0.5rem;
-    margin-top: 0;
-}
-
-.footer-content {
-    gap: 1rem;
-}
-
-/* Добавляем новые стили */
-.pepe-container {
-    width: 800px;
-    margin: 2rem auto;
-    position: relative;
-}
-
-.pepe-img {
-    width: 100%;
-    height: auto;
-    border-radius: 20px;
-    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-    transition: transform 0.3s ease;
-}
-
-.pepe-img:hover {
-    transform: none;
-    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-}
-
-.glitch-text {
-    font-size: 2.5rem;
-    margin: 0.25rem 0;
-}
-
-.subtitle {
-    margin: 0.25rem 0;
-}
-
-.cyber-timer {
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    width: 90%;
-    max-width: 500px;
-}
-
-/* Оптимизируем таймер */
-.cyber-timer {
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    width: 90%;
-    max-width: 500px;
-}
-
-/* Компактный roadmap */
-#roadmap {
-    padding: 0.5rem;
-    margin: 0;
-}
-
-.roadmap-title {
-    margin: 0.5rem 0;
-}
-
-.roadmap-grid {
-    gap: 0.5rem;
-    padding: 0.5rem;
-}
-
-.roadmap-card {
-    padding: 1rem;
-}
-
-/* Компактный footer */
-footer {
-    padding: 0.5rem;
-    margin-top: 0;
-}
-
-.footer-content {
-    gap: 1rem;
+@media (max-width: 480px) {
+    .pepe-container {
+        width: 300px;
+    }
+    
+    .hero {
+        padding: 1rem;
+        gap: 2rem;
+    }
 } 
