@@ -30,7 +30,7 @@ body {
 }
 
 .pepe-container {
-    width: 600px;
+    width: 800px;
     margin: 2rem auto;
     position: relative;
 }
@@ -38,8 +38,8 @@ body {
 .pepe-img {
     width: 100%;
     height: auto;
-    border-radius: 15px;
-    box-shadow: 0 0 40px rgba(0, 255, 0, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
     transition: transform 0.3s ease;
 }
 
@@ -359,6 +359,12 @@ footer {
 }
 
 /* Responsive design */
+@media (max-width: 1024px) {
+    .pepe-container {
+        width: 600px;
+    }
+}
+
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
@@ -568,10 +574,53 @@ html {
     overflow-y: auto;
 }
 
-/* Уменьшаем размеры и отступы */
+/* Компактный roadmap */
+#roadmap {
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.roadmap-title {
+    margin: 0.5rem 0;
+}
+
+.roadmap-grid {
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.roadmap-card {
+    padding: 1rem;
+}
+
+/* Компактный footer */
+footer {
+    padding: 0.5rem;
+    margin-top: 0;
+}
+
+.footer-content {
+    gap: 1rem;
+}
+
+/* Добавляем новые стили */
 .pepe-container {
-    width: 150px;
-    margin: 0.5rem auto;
+    width: 800px;
+    margin: 2rem auto;
+    position: relative;
+}
+
+.pepe-img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.pepe-img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 60px rgba(0, 255, 0, 0.5);
 }
 
 .glitch-text {
@@ -581,6 +630,13 @@ html {
 
 .subtitle {
     margin: 0.25rem 0;
+}
+
+.cyber-timer {
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    width: 90%;
+    max-width: 500px;
 }
 
 /* Оптимизируем таймер */
@@ -618,19 +674,4 @@ footer {
 
 .footer-content {
     gap: 1rem;
-}
-
-/* Медиа-запросы */
-@media (max-height: 800px) {
-    .pepe-container {
-        width: 120px;
-    }
-    
-    .glitch-text {
-        font-size: 2rem;
-    }
-    
-    .time {
-        font-size: 2rem;
-    }
 } 
