@@ -147,6 +147,11 @@ function initRoadmapCards() {
 
 // Запускаем все анимации в правильном порядке
 document.addEventListener('DOMContentLoaded', () => {
+    // Скрываем прелоадер
+    setTimeout(() => {
+        document.querySelector('.preloader').classList.add('hidden');
+    }, 1000);
+    
     createMatrixRain();
     const stopTimer = updateTimer();
     initRoadmapCards();
@@ -180,10 +185,6 @@ function typeWriterEffect(element, text, speed = 50) {
     type();
 }
 
-// Применяем к subtitle
-const subtitle = document.querySelector('.subtitle');
-typeWriterEffect(subtitle, subtitle.textContent);
-
 function createParticles() {
     if (document.querySelector('.particles')) return;
     const particlesContainer = document.createElement('div');
@@ -200,8 +201,6 @@ function createParticles() {
         particlesContainer.appendChild(particle);
     }
 }
-
-createParticles();
 
 function revealContract() {
     const contractText = document.querySelector('.contract-text');
