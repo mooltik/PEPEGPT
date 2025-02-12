@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .matrix-rain {
     position: fixed;
     top: 0;
@@ -166,4 +167,174 @@
     100% {
         transform: translate(100px, -100px);
     }
+=======
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.matrix-rain span {
+    position: absolute;
+    color: var(--neon-green);
+    font-size: 14px;
+    opacity: 0;
+    animation: matrix-drop linear infinite;
+}
+
+@keyframes matrix-drop {
+    0% {
+        opacity: 1;
+        transform: translateY(-100vh);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes neural-glow {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0; }
+}
+
+.glitch-text {
+    animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 10px var(--neon-green),
+                     0 0 20px var(--neon-green),
+                     0 0 40px var(--neon-green);
+    }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+        opacity: 0.4;
+        text-shadow: none;
+    }
+}
+
+/* Добавляем эффекты для кнопки */
+.buy-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.buy-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        var(--neon-green) 25%,
+        transparent 25%
+    );
+    opacity: 0;
+    animation: rotate-bg 2s linear infinite;
+    transition: opacity 0.3s ease;
+}
+
+.buy-button:hover::before {
+    opacity: 0.1;
+}
+
+@keyframes rotate-bg {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.contract-reveal {
+    animation: text-glitch 0.5s infinite;
+    letter-spacing: 2px;
+}
+
+@keyframes text-glitch {
+    0% { transform: translate(0) skew(0deg); }
+    20% { transform: translate(-2px) skew(2deg); }
+    40% { transform: translate(2px) skew(-2deg); }
+    60% { transform: translate(-2px) skew(2deg); }
+    80% { transform: translate(2px) skew(-2deg); }
+    100% { transform: translate(0) skew(0deg); }
+}
+
+.pepe-img {
+    position: relative;
+}
+
+.pepe-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 0%, rgba(0, 255, 0, 0.1) 50%, transparent 100%);
+    animation: glitch-scan 4s linear infinite;
+}
+
+@keyframes glitch-scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.buy-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--neon-green);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: loading 2s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(1); }
+    100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    animation: float-particle linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(100px, -100px);
+    }
+>>>>>>> d928e0a95ed56f2730d7b341c1fb1503e872b6bd
 } 
