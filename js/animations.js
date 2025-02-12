@@ -45,7 +45,7 @@ function updateTimer() {
     const contractText = document.querySelector('.contract-text');
 
     // Фиксированное время старта и окончания для всех пользователей
-    const START_TIME = 1709049600000; // 27 февраля 2024, 16:00:00 UTC
+    const START_TIME = 1708975200000; // 26 февраля 2024, 19:20:00 UTC
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
 
