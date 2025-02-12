@@ -44,12 +44,10 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Целевое время окончания (74 часа)
-    const END_TIME = 1709308800000; // 1 марта 2024, 20:00:00 UTC
     let serverOffset = 0;
     let timerInterval = null;
 
-    // Функция для получения точного времени с сервера
+    // Функция для получения точного времени с сервера и установки времени окончания
     function synchronizeTime() {
         fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
             .then(response => response.json())
@@ -58,22 +56,35 @@ function updateTimer() {
                 const localTime = Date.now();
                 serverOffset = serverTime - localTime;
                 
+                // Устанавливаем время окончания только при первой синхронизации
+                if (!window.END_TIME) {
+                    // 74 часа в миллисекундах от текущего серверного времени
+                    window.END_TIME = serverTime + (74 * 60 * 60 * 1000);
+                    console.log('Timer will end at:', new Date(window.END_TIME).toUTCString());
+                }
+                
                 // Запускаем таймер после синхронизации
                 updateDisplay();
-                timerInterval = setInterval(updateDisplay, 1000);
+                if (!timerInterval) {
+                    timerInterval = setInterval(updateDisplay, 1000);
+                }
             })
             .catch(error => {
                 console.error("Time sync failed, using local time:", error);
                 // Если API недоступно, используем локальное время
+                if (!window.END_TIME) {
+                    window.END_TIME = Date.now() + (74 * 60 * 60 * 1000);
+                }
                 updateDisplay();
-                timerInterval = setInterval(updateDisplay, 1000);
+                if (!timerInterval) {
+                    timerInterval = setInterval(updateDisplay, 1000);
+                }
             });
     }
 
     function updateDisplay() {
-        // Используем синхронизированное время
         const now = Date.now() + serverOffset;
-        const timeLeft = Math.max(0, END_TIME - now);
+        const timeLeft = Math.max(0, window.END_TIME - now);
 
         if (timeLeft === 0) {
             hoursElement.textContent = '00';
@@ -103,7 +114,7 @@ function updateTimer() {
     synchronizeTime();
 
     // Периодически синхронизируем время (каждые 5 минут)
-    setInterval(synchronizeTime, 5 * 60 * 1000);
+    const syncInterval = setInterval(synchronizeTime, 5 * 60 * 1000);
 
     // Возвращаем функцию очистки
     return () => {
@@ -111,6 +122,7 @@ function updateTimer() {
             clearInterval(timerInterval);
             timerInterval = null;
         }
+        clearInterval(syncInterval);
     };
 }
 
