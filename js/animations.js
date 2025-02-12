@@ -44,17 +44,12 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Получаем или устанавливаем время окончания
-    if (!localStorage.getItem('endTime')) {
-        // Если время окончания не установлено, устанавливаем его на 74 часа от текущего момента
-        const endTime = Date.now() + (74 * 60 * 60 * 1000);
-        localStorage.setItem('endTime', endTime.toString());
-    }
+    // Фиксированное время окончания для всех пользователей (27 февраля 2024, 20:00:00 UTC)
+    const END_TIME = 1709150400000;
 
     function updateDisplay() {
-        const endTime = parseInt(localStorage.getItem('endTime'));
         const now = Date.now();
-        const timeLeft = Math.max(0, endTime - now);
+        const timeLeft = Math.max(0, END_TIME - now);
 
         if (timeLeft === 0) {
             hoursElement.textContent = '00';
@@ -75,6 +70,11 @@ function updateTimer() {
         hoursElement.textContent = hours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+        // Отладочная информация
+        console.log('Current time:', new Date(now).toUTCString());
+        console.log('End time:', new Date(END_TIME).toUTCString());
+        console.log('Time left (hours):', hours);
     }
 
     // Обновляем время сразу
