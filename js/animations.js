@@ -43,7 +43,17 @@ function updateTimer() {
     let serverOffset = 0;
     let timerInterval = null;
 
-    // Функция для получения точного времени с сервера
+    // Фиксированное время старта для всех (используем localStorage)
+    if (!localStorage.getItem('startTime')) {
+        // Если время старта не установлено, устанавливаем его
+        const START_TIME = 1709064000000; // 27 февраля 2024, 20:00:00 UTC
+        localStorage.setItem('startTime', START_TIME.toString());
+    }
+
+    const START_TIME = parseInt(localStorage.getItem('startTime'));
+    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
+    const END_TIME = START_TIME + DURATION;
+
     function synchronizeTime() {
         fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
             .then(response => response.json())
@@ -52,7 +62,6 @@ function updateTimer() {
                 const localTime = Date.now();
                 serverOffset = serverTime - localTime;
                 
-                // Запускаем таймер после синхронизации
                 if (!timerInterval) {
                     updateDisplay();
                     timerInterval = setInterval(updateDisplay, 1000);
@@ -60,7 +69,6 @@ function updateTimer() {
             })
             .catch(error => {
                 console.error('Time sync failed:', error);
-                // Если API недоступно, используем локальное время
                 if (!timerInterval) {
                     updateDisplay();
                     timerInterval = setInterval(updateDisplay, 1000);
@@ -68,13 +76,7 @@ function updateTimer() {
             });
     }
 
-    // Фиксированное время старта для всех (27 февраля 2024, 20:00:00 UTC)
-    const START_TIME = 1709064000000;
-    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
-    const END_TIME = START_TIME + DURATION;
-
     function updateDisplay() {
-        // Используем синхронизированное время
         const currentTime = Date.now() + serverOffset;
         const timeLeft = END_TIME - currentTime;
 
@@ -98,15 +100,17 @@ function updateTimer() {
         hoursElement.textContent = totalHours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+        // Отладочная информация
+        console.log('Server offset:', serverOffset);
+        console.log('Current time:', new Date(currentTime).toUTCString());
+        console.log('End time:', new Date(END_TIME).toUTCString());
+        console.log('Time left:', timeLeft / 1000 / 60 / 60, 'hours');
     }
 
-    // Запускаем синхронизацию времени
     synchronizeTime();
-
-    // Периодически синхронизируем время (каждые 5 минут)
     setInterval(synchronizeTime, 5 * 60 * 1000);
 
-    // Возвращаем функцию очистки
     return () => {
         if (timerInterval) {
             clearInterval(timerInterval);
@@ -141,12 +145,27 @@ function initRoadmapCards() {
     });
 }
 
-// Запускаем все анимации
-createMatrixRain();
-updateTimer();
-initRoadmapCards();
+// Запускаем все анимации в правильном порядке
+document.addEventListener('DOMContentLoaded', () => {
+    createMatrixRain();
+    const stopTimer = updateTimer();
+    initRoadmapCards();
+    
+    const subtitle = document.querySelector('.subtitle');
+    if (subtitle) {
+        typeWriterEffect(subtitle, subtitle.textContent);
+    }
+    
+    createParticles();
+
+    // Очистка при закрытии страницы
+    window.addEventListener('unload', () => {
+        if (stopTimer) stopTimer();
+    });
+});
 
 function typeWriterEffect(element, text, speed = 50) {
+    if (!element || !text) return;
     let i = 0;
     element.textContent = '';
     
@@ -166,6 +185,7 @@ const subtitle = document.querySelector('.subtitle');
 typeWriterEffect(subtitle, subtitle.textContent);
 
 function createParticles() {
+    if (document.querySelector('.particles')) return;
     const particlesContainer = document.createElement('div');
     particlesContainer.className = 'particles';
     document.body.appendChild(particlesContainer);
@@ -185,6 +205,7 @@ createParticles();
 
 function revealContract() {
     const contractText = document.querySelector('.contract-text');
+    if (!contractText) return;
     const finalText = '11111111111111111111';
     let currentText = '';
     const chars = '01';
