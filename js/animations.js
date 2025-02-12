@@ -4,7 +4,7 @@ function createMatrixRain() {
     rain.className = 'matrix-rain';
     document.body.appendChild(rain);
 
-    const characters = '01';
+    const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
     const fontSize = 14;
     const columns = Math.floor(window.innerWidth / fontSize);
 
@@ -14,64 +14,44 @@ function createMatrixRain() {
         drop.style.left = i * fontSize + 'px';
         drop.style.animationDuration = Math.random() * 2 + 1 + 's';
         drop.style.animationDelay = Math.random() * 2 + 's';
+        drop.style.opacity = Math.random() * 0.5 + 0.1;
         rain.appendChild(drop);
+
+        // Обновляем символы периодически
+        setInterval(() => {
+            drop.innerHTML = characters.charAt(Math.floor(Math.random() * characters.length));
+        }, Math.random() * 1000 + 500);
     }
 }
 
-createMatrixRain();
-
-// Price ticker animation
-function updatePrice() {
-    const price = document.querySelector('.price');
-    const change = document.querySelector('.change');
-    
-    setInterval(() => {
-        const newPrice = (Math.random() * (0.5 - 0.3) + 0.3).toFixed(3);
-        const newChange = (Math.random() * (100 - (-50)) + (-50)).toFixed(1);
-        
-        price.textContent = `$${newPrice}`;
-        change.textContent = `${newChange}%`;
-        change.style.color = newChange > 0 ? 'var(--neon-green)' : 'var(--neon-pink)';
-    }, 3000);
-}
-
-updatePrice();
+// Обновляем матрицу при изменении размера окна
+window.addEventListener('resize', () => {
+    const oldRain = document.querySelector('.matrix-rain');
+    if (oldRain) {
+        oldRain.remove();
+    }
+    createMatrixRain();
+});
 
 // Add timer functionality
-function initializeTimer() {
+function updateTimer() {
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Фиксированное время старта для всех пользователей
-    const FIXED_START = "2024-02-27T12:00:00Z"; // Например, 27 февраля 2024, 12:00 UTC
-    let timeoutId = null;
-
-    // Получаем или устанавливаем время старта из localStorage
-    if (!localStorage.getItem('timerStart')) {
-        localStorage.setItem('timerStart', FIXED_START);
-    }
-
-    const startDate = luxon.DateTime.fromISO(localStorage.getItem('timerStart'));
-    const endDate = startDate.plus({ hours: 74 });
+    // Устанавливаем время старта на сегодня, 20:00:00 UTC
+    const now = new Date();
+    const START_TIME = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20, 0, 0, 0).getTime();
+    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
+    const END_TIME = START_TIME + DURATION;
 
     function updateDisplay() {
-        const currentTime = luxon.DateTime.utc();
-        
-        // Если время еще не началось
-        if (currentTime < startDate) {
-            hoursElement.textContent = '74';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
-            timeoutId = setTimeout(updateDisplay, 1000);
-            return;
-        }
+        const currentTime = Date.now();
+        const timeLeft = END_TIME - currentTime;
 
-        // Вычисляем оставшееся время
-        const diff = endDate.diff(currentTime, ['hours', 'minutes', 'seconds']);
-        
-        if (diff.as('seconds') <= 0) {
+        if (timeLeft <= 0) {
+            clearInterval(timer);
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -82,35 +62,110 @@ function initializeTimer() {
             return;
         }
 
-        const hours = Math.floor(diff.as('hours'));
-        const minutes = Math.floor(diff.minutes);
-        const seconds = Math.floor(diff.seconds);
+        const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        hoursElement.textContent = hours.toString().padStart(2, '0');
+        hoursElement.textContent = totalHours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
-
-        // Рекурсивно вызываем функцию через 1000 мс
-        timeoutId = setTimeout(updateDisplay, 1000);
     }
 
-    // Запускаем обновление
-    updateDisplay();
+    // Обновляем каждую секунду
+    const timer = setInterval(updateDisplay, 1000);
+}
 
-    // Возвращаем функцию очистки
-    return () => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-    };
+// Добавить анимацию для карточек roadmap
+function initRoadmapCards() {
+    const cards = document.querySelectorAll('.roadmap-card');
+    
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+        
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const angleX = (y - centerY) / 20;
+            const angleY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'none';
+        });
+    });
 }
 
 // Запускаем все анимации
 createMatrixRain();
-updatePrice();
-const stopTimer = initializeTimer();
+updateTimer();
+initRoadmapCards();
 
-// Очистка при закрытии страницы
-window.addEventListener('unload', () => {
-    if (stopTimer) stopTimer();
-}); 
+function typeWriterEffect(element, text, speed = 50) {
+    let i = 0;
+    element.textContent = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    
+    type();
+}
+
+// Применяем к subtitle
+const subtitle = document.querySelector('.subtitle');
+typeWriterEffect(subtitle, subtitle.textContent);
+
+function createParticles() {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles';
+    document.body.appendChild(particlesContainer);
+
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = Math.random() * 100 + 'vh';
+        particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+createParticles();
+
+function revealContract() {
+    const contractText = document.querySelector('.contract-text');
+    const finalText = '11111111111111111111';
+    let currentText = '';
+    const chars = '01';
+    
+    function scramble() {
+        currentText = '';
+        for (let i = 0; i < finalText.length; i++) {
+            currentText += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        contractText.textContent = currentText;
+    }
+
+    let count = 0;
+    const interval = setInterval(() => {
+        scramble();
+        count++;
+        if (count > 20) {
+            clearInterval(interval);
+            contractText.textContent = finalText;
+            contractText.classList.add('contract-reveal');
+        }
+    }, 50);
+} 
