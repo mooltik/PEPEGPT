@@ -18,21 +18,21 @@ body {
 .hero {
     position: relative;
     text-align: center;
-    padding: 1rem;
+    padding: 2rem;
     z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     overflow-y: auto;
 }
 
 .pepe-container {
     position: relative;
     width: 300px;
-    margin: 0.5rem auto;
+    margin: 2rem auto;
 }
 
 .pepe-img {
@@ -48,16 +48,16 @@ body {
 }
 
 .glitch-text {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--neon-green);
     text-shadow: 0 0 10px var(--neon-green);
-    margin: 0.5rem 0;
+    margin: 2rem 0;
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: var(--cyber-blue);
-    margin-bottom: 1rem;
+    margin: 1.5rem 0;
 }
 
 .price-ticker {
@@ -107,8 +107,8 @@ body {
 }
 
 .cyber-timer {
-    margin: 0.5rem auto;
-    padding: 0.5rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
     background: rgba(0, 255, 0, 0.05);
     border: 1px solid var(--neon-green);
     border-radius: 10px;
@@ -155,8 +155,8 @@ body {
 
 .buy-button {
     position: relative;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
+    padding: 1.2rem 3rem;
+    font-size: 1.4rem;
     background: transparent;
     border: 2px solid var(--neon-green);
     color: var(--neon-green);
@@ -164,7 +164,7 @@ body {
     overflow: hidden;
     transition: all 0.3s ease;
     font-family: 'Courier New', monospace;
-    margin: 0.5rem 0;
+    margin: 2rem 0;
 }
 
 .buy-button:hover {
@@ -369,11 +369,13 @@ footer {
     }
 
     .pepe-container {
-        width: 200px;
+        width: 250px;
+        margin: 1.5rem auto;
     }
 
     .glitch-text {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        margin: 1.5rem 0;
     }
 
     .time {
@@ -385,12 +387,18 @@ footer {
     }
 
     .hero {
-        padding: 0.5rem;
-        gap: 0.5rem;
+        gap: 1.5rem;
+        padding: 1rem;
     }
 
     .cyber-timer {
-        margin: 0.5rem auto;
+        margin: 1.5rem auto;
+        padding: 1rem;
+    }
+
+    .buy-button {
+        margin: 1.5rem 0;
+        padding: 1rem 2.5rem;
     }
 
     #roadmap {
