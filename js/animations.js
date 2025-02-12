@@ -38,40 +38,36 @@ function updatePrice() {
 updatePrice();
 
 // Add timer functionality
-function updateTimer() {
+function initializeTimer() {
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Фиксированное время старта и окончания для всех пользователей
-    const START_TIME = 1708975200000; // 26 февраля 2024, 19:20:00 UTC
+    // Переменная для хранения разницы между серверным и локальным временем
+    let serverOffset = 0;
+    let timerInterval = null;
+
+    // Целевая дата начала отсчета (74 часа)
+    const targetDate = new Date("2024-02-27T00:00:00Z").getTime();
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
-    const END_TIME = START_TIME + DURATION;
-
-    let timerInterval = null; // Объявляем переменную в начале функции
-
-    function stopTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-    }
+    const endDate = targetDate + DURATION;
 
     function updateDisplay() {
-        const now = Date.now();
+        // Используем синхронизированное время
+        const now = Date.now() + serverOffset;
         
-        // Если время еще не началось, показываем 74:00:00
-        if (now < START_TIME) {
+        // Если время еще не началось
+        if (now < targetDate) {
             hoursElement.textContent = '74';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
             return;
         }
 
-        const timeLeft = Math.max(0, END_TIME - now);
+        const timeLeft = Math.max(0, endDate - now);
 
-        if (timeLeft === 0) {
+        if (timeLeft <= 0) {
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -79,7 +75,9 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            stopTimer();
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
             return;
         }
 
@@ -92,20 +90,47 @@ function updateTimer() {
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
 
-    // Обновляем время сразу
-    updateDisplay();
-    
-    // Обновляем каждую секунду
-    timerInterval = setInterval(updateDisplay, 1000);
+    // Функция для синхронизации времени с сервером
+    function synchronizeTime() {
+        fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
+            .then(response => response.json())
+            .then(data => {
+                const serverTime = new Date(data.utc_datetime).getTime();
+                const localTime = Date.now();
+                serverOffset = serverTime - localTime;
+                
+                // Запускаем таймер после синхронизации
+                updateDisplay();
+                if (!timerInterval) {
+                    timerInterval = setInterval(updateDisplay, 1000);
+                }
+            })
+            .catch(error => {
+                console.error("Time sync failed, using local time:", error);
+                updateDisplay();
+                if (!timerInterval) {
+                    timerInterval = setInterval(updateDisplay, 1000);
+                }
+            });
+    }
 
-    // Возвращаем функцию очистки
-    return stopTimer;
+    // Запускаем синхронизацию времени
+    synchronizeTime();
+
+    // Периодически синхронизируем время (каждые 5 минут)
+    setInterval(synchronizeTime, 5 * 60 * 1000);
+
+    return () => {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+    };
 }
 
 // Запускаем все анимации
 createMatrixRain();
 updatePrice();
-const stopTimer = updateTimer();
+const stopTimer = initializeTimer();
 
 // Очистка при закрытии страницы
 window.addEventListener('unload', () => {
