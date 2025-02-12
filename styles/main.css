@@ -44,8 +44,8 @@ body {
 }
 
 .pepe-img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 60px rgba(0, 255, 0, 0.5);
+    transform: none;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
 }
 
 .glitch-text {
@@ -425,9 +425,6 @@ footer {
 /* Добавляем стили для киберпанк элементов */
 .pepe-3d {
     position: relative;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    transition: transform 0.3s ease;
 }
 
 .cyber-circle,
@@ -437,17 +434,13 @@ footer {
 }
 
 .pepe-3d:hover {
-    transform: rotateY(10deg) rotateX(5deg);
-    filter: drop-shadow(0 0 20px var(--neon-green));
+    transform: none;
+    filter: none;
 }
 
-.pepe-3d:hover .cyber-circle {
-    animation: rotate 5s linear infinite, pulse-neon 2s ease-in-out infinite;
-}
-
-@keyframes pulse-neon {
-    0%, 100% { box-shadow: 0 0 20px var(--neon-green); }
-    50% { box-shadow: 0 0 40px var(--neon-green); }
+.pepe-img:hover {
+    transform: none;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
 }
 
 /* Исправим z-index для матрицы */
@@ -619,8 +612,8 @@ footer {
 }
 
 .pepe-img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 60px rgba(0, 255, 0, 0.5);
+    transform: none;
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
 }
 
 .glitch-text {
