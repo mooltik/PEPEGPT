@@ -44,24 +44,36 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Фиксированное время окончания для всех пользователей
+    // Целевое время окончания (74 часа)
     const END_TIME = 1709308800000; // 1 марта 2024, 20:00:00 UTC
-    let timerInterval = null; // Объявляем переменную интервала в начале
+    let serverOffset = 0;
+    let timerInterval = null;
 
-    function stopTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
+    // Функция для получения точного времени с сервера
+    function synchronizeTime() {
+        fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
+            .then(response => response.json())
+            .then(data => {
+                const serverTime = new Date(data.utc_datetime).getTime();
+                const localTime = Date.now();
+                serverOffset = serverTime - localTime;
+                
+                // Запускаем таймер после синхронизации
+                updateDisplay();
+                timerInterval = setInterval(updateDisplay, 1000);
+            })
+            .catch(error => {
+                console.error("Time sync failed, using local time:", error);
+                // Если API недоступно, используем локальное время
+                updateDisplay();
+                timerInterval = setInterval(updateDisplay, 1000);
+            });
     }
 
     function updateDisplay() {
-        const now = Date.now();
+        // Используем синхронизированное время
+        const now = Date.now() + serverOffset;
         const timeLeft = Math.max(0, END_TIME - now);
-
-        console.log('Current time:', new Date(now).toUTCString());
-        console.log('End time:', new Date(END_TIME).toUTCString());
-        console.log('Time left (hours):', Math.floor(timeLeft / (1000 * 60 * 60)));
 
         if (timeLeft === 0) {
             hoursElement.textContent = '00';
@@ -71,7 +83,10 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            stopTimer(); // Используем функцию остановки таймера вместо intervalId
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
             return;
         }
 
@@ -84,14 +99,19 @@ function updateTimer() {
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
 
-    // Первое обновление
-    updateDisplay();
-    
-    // Запускаем интервал
-    timerInterval = setInterval(updateDisplay, 1000);
+    // Запускаем синхронизацию времени
+    synchronizeTime();
 
-    // Возвращаем функцию очистки на случай необходимости
-    return stopTimer;
+    // Периодически синхронизируем время (каждые 5 минут)
+    setInterval(synchronizeTime, 5 * 60 * 1000);
+
+    // Возвращаем функцию очистки
+    return () => {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    };
 }
 
 // Запускаем все анимации
@@ -99,7 +119,7 @@ createMatrixRain();
 updatePrice();
 const stopTimer = updateTimer();
 
-// Добавляем обработчик для очистки при уничтожении страницы
+// Очистка при закрытии страницы
 window.addEventListener('unload', () => {
     if (stopTimer) stopTimer();
 }); 
