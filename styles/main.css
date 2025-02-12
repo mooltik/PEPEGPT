@@ -448,7 +448,53 @@ footer {
 
 /* Исправим z-index для матрицы */
 .matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
     z-index: -1;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.matrix-rain span {
+    position: fixed;
+    color: var(--neon-green);
+    font-size: 14px;
+    opacity: 0;
+    will-change: transform;
+}
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.particle {
+    position: fixed;
+    will-change: transform;
+}
+
+@keyframes matrix-drop {
+    0% {
+        opacity: 1;
+        transform: translateY(-100vh);
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh);
+    }
 }
 
 /* Улучшим читаемость текста */
@@ -479,4 +525,15 @@ footer {
 /* Скрываем прелоадер после загрузки */
 .preloader.hidden {
     display: none;
+}
+
+/* Фиксим скролл и производительность */
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Добавляем плавный скролл */
+html {
+    scroll-behavior: smooth;
 } 

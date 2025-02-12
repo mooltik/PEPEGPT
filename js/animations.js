@@ -4,33 +4,61 @@ function createMatrixRain() {
     rain.className = 'matrix-rain';
     document.body.appendChild(rain);
 
-    const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const characters = '01アイウエオカキクケコサシスセソ';
     const fontSize = 14;
     const columns = Math.floor(window.innerWidth / fontSize);
+    const maxDrops = Math.min(columns, 100); // Ограничиваем количество капель
 
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < maxDrops; i++) {
         const drop = document.createElement('span');
         drop.innerHTML = characters.charAt(Math.floor(Math.random() * characters.length));
-        drop.style.left = i * fontSize + 'px';
+        drop.style.left = (Math.random() * window.innerWidth) + 'px';
         drop.style.animationDuration = Math.random() * 2 + 1 + 's';
         drop.style.animationDelay = Math.random() * 2 + 's';
-        drop.style.opacity = Math.random() * 0.5 + 0.1;
+        drop.style.opacity = Math.random() * 0.3 + 0.1; // Уменьшаем прозрачность
         rain.appendChild(drop);
 
-        // Обновляем символы периодически
+        // Обновляем символы реже
         setInterval(() => {
             drop.innerHTML = characters.charAt(Math.floor(Math.random() * characters.length));
-        }, Math.random() * 1000 + 500);
+        }, Math.random() * 2000 + 1000);
     }
 }
 
-// Обновляем матрицу при изменении размера окна
-window.addEventListener('resize', () => {
-    const oldRain = document.querySelector('.matrix-rain');
-    if (oldRain) {
-        oldRain.remove();
+// Оптимизируем создание частиц
+function createParticles() {
+    if (document.querySelector('.particles')) return;
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles';
+    document.body.appendChild(particlesContainer);
+
+    const maxParticles = Math.min(window.innerWidth / 20, 30); // Ограничиваем количество частиц
+
+    for (let i = 0; i < maxParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = Math.random() * 100 + 'vh';
+        particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particlesContainer.appendChild(particle);
     }
-    createMatrixRain();
+}
+
+// Оптимизируем обработку ресайза
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+    resizeTimeout = setTimeout(() => {
+        const oldRain = document.querySelector('.matrix-rain');
+        const oldParticles = document.querySelector('.particles');
+        if (oldRain) oldRain.remove();
+        if (oldParticles) oldParticles.remove();
+        createMatrixRain();
+        createParticles();
+    }, 250);
 });
 
 // Add timer functionality
@@ -183,23 +211,6 @@ function typeWriterEffect(element, text, speed = 50) {
     }
     
     type();
-}
-
-function createParticles() {
-    if (document.querySelector('.particles')) return;
-    const particlesContainer = document.createElement('div');
-    particlesContainer.className = 'particles';
-    document.body.appendChild(particlesContainer);
-
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + 'vw';
-        particle.style.top = Math.random() * 100 + 'vh';
-        particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-        particle.style.animationDelay = (Math.random() * 10) + 's';
-        particlesContainer.appendChild(particle);
-    }
 }
 
 function revealContract() {
