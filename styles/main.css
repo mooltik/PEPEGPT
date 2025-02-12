@@ -171,4 +171,15 @@ html, body {
         padding: 1rem;
         gap: 2rem;
     }
+}
+
+/* Удалить, если остались эти стили */
+.neural-eyes {
+    display: none;
+}
+
+@keyframes neural-glow {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0; }
 } 
