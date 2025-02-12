@@ -49,6 +49,15 @@ function updateTimer() {
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
 
+    let timerInterval = null; // Объявляем переменную в начале функции
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
     function updateDisplay() {
         const now = Date.now();
         
@@ -70,7 +79,7 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            clearInterval(timerInterval);
+            stopTimer();
             return;
         }
 
@@ -87,12 +96,10 @@ function updateTimer() {
     updateDisplay();
     
     // Обновляем каждую секунду
-    const timerInterval = setInterval(updateDisplay, 1000);
+    timerInterval = setInterval(updateDisplay, 1000);
 
     // Возвращаем функцию очистки
-    return () => {
-        clearInterval(timerInterval);
-    };
+    return stopTimer;
 }
 
 // Запускаем все анимации
