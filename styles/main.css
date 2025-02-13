@@ -105,6 +105,35 @@ footer {
     height: 300px;
     position: relative;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pepe-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+
+.cyber-circle {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 2px solid var(--neon-green);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.cyber-lines {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border: 1px dashed var(--cyber-blue);
+    border-radius: 50%;
+    z-index: 1;
 }
 
 #how-it-works {
