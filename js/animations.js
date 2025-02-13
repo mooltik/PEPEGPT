@@ -53,6 +53,10 @@ function updateTimer() {
         const currentTime = Date.now();
         const timeLeft = END_TIME - currentTime;
 
+        console.log('Current time:', new Date(currentTime));
+        console.log('End time:', new Date(END_TIME));
+        console.log('Time left:', timeLeft);
+
         if (timeLeft <= 0) {
             clearInterval(timer);
             hoursElement.textContent = '00';
@@ -68,6 +72,8 @@ function updateTimer() {
         const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        console.log('Hours:', totalHours, 'Minutes:', minutes, 'Seconds:', seconds);
 
         hoursElement.textContent = totalHours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
