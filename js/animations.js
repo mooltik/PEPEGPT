@@ -39,8 +39,8 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Устанавливаем время старта на 26 февраля 2024, 18:00:00 UTC
-    const START_TIME = 1708967400000; // Mon Feb 26 2024 18:00:00 GMT+0000
+    // Устанавливаем время старта на текущий момент
+    const START_TIME = Date.now();
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
     
@@ -49,16 +49,14 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
+    let timer; // Объявляем переменную timer перед использованием
+
     function updateDisplay() {
         const currentTime = Date.now();
         const timeLeft = END_TIME - currentTime;
 
-        console.log('Current time:', new Date(currentTime));
-        console.log('End time:', new Date(END_TIME));
-        console.log('Time left:', timeLeft);
-
         if (timeLeft <= 0) {
-            clearInterval(timer);
+            if (timer) clearInterval(timer);
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -73,8 +71,6 @@ function updateTimer() {
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        console.log('Hours:', totalHours, 'Minutes:', minutes, 'Seconds:', seconds);
-
         hoursElement.textContent = totalHours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
@@ -84,7 +80,7 @@ function updateTimer() {
     updateDisplay();
     
     // Обновляем каждую секунду
-    const timer = setInterval(updateDisplay, 1000);
+    timer = setInterval(updateDisplay, 1000);
 }
 
 updateTimer(); 
