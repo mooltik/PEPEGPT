@@ -175,4 +175,57 @@ footer {
         width: 200px;
         height: 200px;
     }
+}
+
+/* Add new styles */
+.price-ticker {
+    background: rgba(57, 255, 20, 0.1);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--neon-green);
+    margin: 1rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.price {
+    color: var(--neon-green);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.change {
+    color: var(--neon-pink);
+    font-weight: bold;
+}
+
+.cyber-triangles {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    z-index: 0;
+}
+
+.cyber-triangles::before,
+.cyber-triangles::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.cyber-triangles::before {
+    border-width: 150px 75px 0 75px;
+    border-color: rgba(57, 255, 20, 0.1) transparent transparent transparent;
+    top: 0;
+    left: 75px;
+}
+
+.cyber-triangles::after {
+    border-width: 0 75px 150px 75px;
+    border-color: transparent transparent rgba(0, 243, 255, 0.1) transparent;
+    bottom: 0;
+    left: 75px;
 } 
