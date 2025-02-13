@@ -39,8 +39,8 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Фиксированная дата старта таймера - например, 26 февраля 2024, 12:00:00 UTC
-    const START_TIME = 1708945200000; // Это конкретный момент времени в UTC
+    // Устанавливаем время старта на 26 февраля 2024, 18:00:00 UTC
+    const START_TIME = 1708967400000; // Mon Feb 26 2024 18:00:00 GMT+0000
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
     
