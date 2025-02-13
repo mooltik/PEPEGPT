@@ -321,4 +321,14 @@ footer {
     color: var(--neon-green);
     animation: blink 1s infinite;
     margin-top: -1rem;
+}
+
+/* Add to existing timer styles */
+.contract-text {
+    margin-top: 1rem;
+    color: var(--cyber-blue);
+    font-size: 0.9rem;
+    text-align: center;
+    letter-spacing: 1px;
+    opacity: 0.8;
 } 

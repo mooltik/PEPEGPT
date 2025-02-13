@@ -39,17 +39,13 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Get end time from localStorage or set it if not exists
-    let endTime = localStorage.getItem('timerEndTime');
-    if (!endTime) {
-        // Set end time to 74 hours from now
-        endTime = Date.now() + (74 * 60 * 60 * 1000);
-        localStorage.setItem('timerEndTime', endTime);
-    }
+    // Set end time to February 16, 2025, 8:00 PM New York time
+    const endTime = new Date('2025-02-16T20:00:00-05:00').getTime();
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
+    const contractText = document.querySelector('.contract-text');
     
     const timer = setInterval(() => {
         const now = Date.now();
@@ -60,10 +56,15 @@ function updateTimer() {
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
+            contractText.textContent = '11111111111111111111';
+            contractText.style.color = 'var(--neon-green)';
+            contractText.style.fontSize = '1.2rem';
+            contractText.style.fontWeight = 'bold';
             return;
         }
 
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
         
@@ -77,7 +78,7 @@ function updateTimer() {
             }, 300);
         }
         
-        hoursElement.textContent = hours.toString().padStart(2, '0');
+        hoursElement.textContent = (days * 24 + hours).toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }, 1000);
