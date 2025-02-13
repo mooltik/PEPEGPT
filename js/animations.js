@@ -39,14 +39,26 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Set end time to February 16, 2025, 8:00 PM UTC
-    const endTime = Date.UTC(2025, 1, 16, 20, 0, 0);
+    // Устанавливаем конечную дату в UTC
+    const targetDate = new Date(Date.UTC(2025, 1, 16, 20, 0, 0));
+    const endTime = targetDate.getTime();
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
+    // Показываем дату окончания
+    const endTimeString = targetDate.toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+    });
+    contractText.textContent = `Contract will appear here when timer ends (${endTimeString})`;
+
     // Обновляем время сразу при загрузке
     updateDisplay();
     
@@ -55,7 +67,7 @@ function updateTimer() {
     }, 1000);
     
     function updateDisplay() {
-        const now = Date.now();
+        const now = new Date().getTime();
         const timeLeft = endTime - now;
 
         if (timeLeft <= 0) {
