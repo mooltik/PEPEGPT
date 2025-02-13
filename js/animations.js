@@ -46,6 +46,14 @@ function updateTimer() {
 
     // Фиксированное время окончания для всех пользователей
     const END_TIME = 1709308800000; // 1 марта 2024, 20:00:00 UTC
+    let timerInterval = null; // Объявляем переменную интервала в начале
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
 
     function updateDisplay() {
         const now = Date.now();
@@ -63,9 +71,7 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
+            stopTimer(); // Используем функцию остановки таймера
             return;
         }
 
@@ -78,11 +84,22 @@ function updateTimer() {
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
 
+    // Первое обновление
     updateDisplay();
-    const intervalId = setInterval(updateDisplay, 1000);
+    
+    // Запускаем интервал
+    timerInterval = setInterval(updateDisplay, 1000);
+
+    // Возвращаем функцию очистки на случай необходимости
+    return stopTimer;
 }
 
 // Запускаем все анимации
 createMatrixRain();
 updatePrice();
-updateTimer(); 
+const stopTimer = updateTimer();
+
+// Добавляем обработчик для очистки при уничтожении страницы
+window.addEventListener('unload', () => {
+    if (stopTimer) stopTimer();
+}); 
