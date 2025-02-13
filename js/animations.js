@@ -39,23 +39,16 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    const TOTAL_HOURS = 74;
+    // Фиксированное время окончания для всех пользователей (74 часа от определенного момента)
+    const END_TIME = 1708974000000; // Это конкретный timestamp, например 26 февраля 2024, 20:00 UTC
     
-    // Получаем или устанавливаем время окончания
-    let endTime = localStorage.getItem('timerEndTime');
-    if (!endTime) {
-        // Если таймер запускается впервые, устанавливаем время окончания
-        endTime = Date.now() + (TOTAL_HOURS * 60 * 60 * 1000);
-        localStorage.setItem('timerEndTime', endTime);
-    }
-
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
     // Показываем дату окончания
-    const endDate = new Date(parseInt(endTime));
+    const endDate = new Date(END_TIME);
     const endTimeString = endDate.toLocaleString(undefined, {
         year: 'numeric',
         month: 'long',
@@ -68,7 +61,7 @@ function updateTimer() {
 
     function updateDisplay() {
         const now = Date.now();
-        const timeLeft = endTime - now;
+        const timeLeft = END_TIME - now;
 
         if (timeLeft <= 0) {
             clearInterval(timer);
