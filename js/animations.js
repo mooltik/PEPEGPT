@@ -39,32 +39,33 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
+    // Get end time from localStorage or set it if not exists
+    let endTime = localStorage.getItem('timerEndTime');
+    if (!endTime) {
+        // Set end time to 74 hours from now
+        endTime = Date.now() + (74 * 60 * 60 * 1000);
+        localStorage.setItem('timerEndTime', endTime);
+    }
+
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     
-    let hours = 74;
-    let minutes = 0;
-    let seconds = 0;
-    
     const timer = setInterval(() => {
-        if (seconds > 0) {
-            seconds--;
-        } else {
-            if (minutes > 0) {
-                minutes--;
-                seconds = 59;
-            } else {
-                if (hours > 0) {
-                    hours--;
-                    minutes = 59;
-                    seconds = 59;
-                } else {
-                    clearInterval(timer);
-                    return;
-                }
-            }
+        const now = Date.now();
+        const timeLeft = endTime - now;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            hoursElement.textContent = '00';
+            minutesElement.textContent = '00';
+            secondsElement.textContent = '00';
+            return;
         }
+
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
         
         // Add glitch effect randomly
         if (Math.random() < 0.1) {
