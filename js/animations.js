@@ -39,63 +39,38 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Конечная дата: 16 февраля 2025, 20:00:00 UTC
-    const targetTime = {
-        year: 2025,
-        month: 2,  // февраль
-        day: 16,
-        hour: 20,
-        minute: 0
-    };
+    const TOTAL_HOURS = 74;
+    
+    // Получаем или устанавливаем время окончания
+    let endTime = localStorage.getItem('timerEndTime');
+    if (!endTime) {
+        // Если таймер запускается впервые, устанавливаем время окончания
+        endTime = Date.now() + (TOTAL_HOURS * 60 * 60 * 1000);
+        localStorage.setItem('timerEndTime', endTime);
+    }
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
-    function getCurrentUTCTime() {
-        const now = new Date();
-        return {
-            year: now.getUTCFullYear(),
-            month: now.getUTCMonth() + 1,
-            day: now.getUTCDate(),
-            hour: now.getUTCHours(),
-            minute: now.getUTCMinutes(),
-            second: now.getUTCSeconds()
-        };
-    }
-    
-    function calculateTimeLeft(current, target) {
-        // Конвертируем всё в минуты для простоты расчетов
-        const targetMinutes = (target.year * 525600) + // минут в году
-                            (target.month * 43800) +   // минут в месяце (в среднем)
-                            (target.day * 1440) +      // минут в дне
-                            (target.hour * 60) +       // часы в минуты
-                            target.minute;
-        
-        const currentMinutes = (current.year * 525600) +
-                             (current.month * 43800) +
-                             (current.day * 1440) +
-                             (current.hour * 60) +
-                             current.minute;
-        
-        const minutesLeft = targetMinutes - currentMinutes;
-        const hoursLeft = Math.floor(minutesLeft / 60);
-        const minsLeft = minutesLeft % 60;
-        const secsLeft = current.second;
-        
-        return {
-            hours: hoursLeft,
-            minutes: minsLeft,
-            seconds: 60 - secsLeft
-        };
-    }
+    // Показываем дату окончания
+    const endDate = new Date(parseInt(endTime));
+    const endTimeString = endDate.toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+    });
+    contractText.textContent = `Contract will appear here when timer ends (${endTimeString})`;
 
     function updateDisplay() {
-        const currentTime = getCurrentUTCTime();
-        const timeLeft = calculateTimeLeft(currentTime, targetTime);
+        const now = Date.now();
+        const timeLeft = endTime - now;
 
-        if (timeLeft.hours <= 0 && timeLeft.minutes <= 0 && timeLeft.seconds <= 0) {
+        if (timeLeft <= 0) {
             clearInterval(timer);
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
@@ -107,22 +82,14 @@ function updateTimer() {
             return;
         }
 
-        hoursElement.textContent = Math.max(0, timeLeft.hours).toString().padStart(2, '0');
-        minutesElement.textContent = Math.max(0, timeLeft.minutes).toString().padStart(2, '0');
-        secondsElement.textContent = Math.max(0, timeLeft.seconds).toString().padStart(2, '0');
-    }
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    // Показываем локальное время окончания
-    const localEndTime = new Date(Date.UTC(targetTime.year, targetTime.month - 1, targetTime.day, targetTime.hour, targetTime.minute));
-    const endTimeString = localEndTime.toLocaleString(undefined, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZoneName: 'short'
-    });
-    contractText.textContent = `Contract will appear here when timer ends (${endTimeString})`;
+        hoursElement.textContent = hours.toString().padStart(2, '0');
+        minutesElement.textContent = minutes.toString().padStart(2, '0');
+        secondsElement.textContent = seconds.toString().padStart(2, '0');
+    }
 
     // Обновляем время сразу при загрузке
     updateDisplay();
