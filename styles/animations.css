@@ -1,0 +1,64 @@
+@keyframes glitch {
+    0% {
+        text-shadow: 0.05em 0 0 var(--neon-pink),
+                     -0.05em -0.025em 0 var(--cyber-blue);
+    }
+    14% {
+        text-shadow: 0.05em 0 0 var(--neon-pink),
+                     -0.05em -0.025em 0 var(--cyber-blue);
+    }
+    15% {
+        text-shadow: -0.05em -0.025em 0 var(--neon-pink),
+                     0.025em 0.025em 0 var(--cyber-blue);
+    }
+    49% {
+        text-shadow: -0.05em -0.025em 0 var(--neon-pink),
+                     0.025em 0.025em 0 var(--cyber-blue);
+    }
+    50% {
+        text-shadow: 0.025em 0.05em 0 var(--neon-pink),
+                     0.05em 0 0 var(--cyber-blue);
+    }
+    99% {
+        text-shadow: 0.025em 0.05em 0 var(--neon-pink),
+                     0.05em 0 0 var(--cyber-blue);
+    }
+    100% {
+        text-shadow: -0.025em 0 0 var(--neon-pink),
+                     -0.025em -0.025em 0 var(--cyber-blue);
+    }
+}
+
+.glitch-text {
+    animation: glitch 1s infinite;
+}
+
+@keyframes neural-flicker {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.3; }
+}
+
+.neural-eyes {
+    animation: neural-flicker 2s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.pepe-3d {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fire {
+    0% { color: #ff4d4d; }
+    50% { color: #ff9933; }
+    100% { color: #ff4d4d; }
+}
+
+.fire-link {
+    animation: fire 2s infinite;
+} 

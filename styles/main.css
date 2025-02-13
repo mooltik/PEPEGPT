@@ -1,0 +1,92 @@
+:root {
+    --neon-green: #39ff14;
+    --neon-pink: #ff1493;
+    --cyber-blue: #00f3ff;
+    --dark-bg: #0a0a0a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: 'Cyberpunk', sans-serif;
+    overflow-x: hidden;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.glitch-text {
+    font-size: 4rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green);
+    margin-bottom: 1rem;
+}
+
+.buy-button {
+    background: linear-gradient(45deg, var(--neon-pink), var(--cyber-blue));
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.buy-button:hover {
+    transform: scale(1.05);
+}
+
+.chat-window {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 2rem;
+    backdrop-filter: blur(5px);
+}
+
+.roadmap-timeline {
+    display: flex;
+    justify-content: space-around;
+    padding: 4rem 2rem;
+}
+
+.milestone {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.milestone:hover {
+    background: var(--neon-green);
+    color: var(--dark-bg);
+}
+
+footer {
+    background: linear-gradient(to top, var(--dark-bg), transparent);
+    padding: 2rem;
+    text-align: center;
+}
+
+.social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    position: relative;
+} 
