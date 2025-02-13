@@ -45,11 +45,15 @@ function updateTimer() {
     const contractText = document.querySelector('.contract-text');
 
     // Фиксированное время окончания для всех пользователей
-    const END_TIME = 1709049600000; // Например, 27 февраля 2024, 20:00:00 UTC
+    const END_TIME = 1709308800000; // 1 марта 2024, 20:00:00 UTC
 
     function updateDisplay() {
         const now = Date.now();
         const timeLeft = Math.max(0, END_TIME - now);
+
+        console.log('Current time:', new Date(now).toUTCString());
+        console.log('End time:', new Date(END_TIME).toUTCString());
+        console.log('Time left (hours):', Math.floor(timeLeft / (1000 * 60 * 60)));
 
         if (timeLeft === 0) {
             hoursElement.textContent = '00';
