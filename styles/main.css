@@ -51,14 +51,6 @@ body {
     transform: scale(1.05);
 }
 
-.chat-window {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 1rem;
-    margin: 2rem;
-    backdrop-filter: blur(5px);
-}
-
 .roadmap-timeline {
     display: flex;
     justify-content: space-around;
@@ -134,16 +126,6 @@ footer {
     border: 1px dashed var(--cyber-blue);
     border-radius: 50%;
     z-index: 1;
-}
-
-#how-it-works {
-    padding: 4rem 2rem;
-    background: linear-gradient(45deg, rgba(10,10,10,0.9), rgba(20,20,20,0.9));
-}
-
-.professor-pepe {
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 /* Responsive Design */

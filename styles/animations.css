@@ -91,12 +91,6 @@
     z-index: -1;
 }
 
-/* Add neon border effect */
-.chat-window {
-    border: 2px solid var(--neon-green);
-    animation: glow 2s infinite;
-}
-
 /* Add these new animations */
 @keyframes rotate {
     from { transform: rotate(0deg); }
