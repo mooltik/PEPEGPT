@@ -39,16 +39,34 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Устанавливаем конечную дату (16 февраля 2025, 20:00 UTC)
-    const endTime = 1739798400000; // UTC timestamp для 2025-02-16 20:00:00 UTC
+    // Фиксированная дата окончания: 16 февраля 2025, 20:00:00 UTC
+    const END_DATE = {
+        UTC: {
+            year: 2025,
+            month: 1, // 0-11, где 1 это февраль
+            day: 16,
+            hours: 20,
+            minutes: 0,
+            seconds: 0
+        }
+    };
+    
+    // Создаем дату окончания в UTC
+    const endDate = new Date(Date.UTC(
+        END_DATE.UTC.year,
+        END_DATE.UTC.month,
+        END_DATE.UTC.day,
+        END_DATE.UTC.hours,
+        END_DATE.UTC.minutes,
+        END_DATE.UTC.seconds
+    ));
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
-    // Показываем дату окончания
-    const endDate = new Date(endTime);
+    // Показываем дату окончания в локальном времени пользователя
     const endTimeString = endDate.toLocaleString(undefined, {
         year: 'numeric',
         month: 'long',
@@ -67,8 +85,17 @@ function updateTimer() {
     }, 1000);
     
     function updateDisplay() {
-        const now = Date.now(); // Текущее время в UTC
-        const timeLeft = endTime - now;
+        const now = new Date();
+        const nowUTC = Date.UTC(
+            now.getUTCFullYear(),
+            now.getUTCMonth(),
+            now.getUTCDate(),
+            now.getUTCHours(),
+            now.getUTCMinutes(),
+            now.getUTCSeconds()
+        );
+        
+        const timeLeft = endDate.getTime() - nowUTC;
 
         if (timeLeft <= 0) {
             clearInterval(timer);
@@ -86,16 +113,6 @@ function updateTimer() {
         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        
-        // Add glitch effect randomly
-        if (Math.random() < 0.1) {
-            hoursElement.style.animation = 'none';
-            hoursElement.offsetHeight; // Trigger reflow
-            hoursElement.style.animation = 'timer-glitch 0.3s infinite';
-            setTimeout(() => {
-                hoursElement.style.animation = 'timer-glitch 3s infinite';
-            }, 300);
-        }
         
         hoursElement.textContent = (days * 24 + hours).toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
