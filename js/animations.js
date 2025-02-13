@@ -49,14 +49,11 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    let timer; // Объявляем переменную timer перед использованием
-
     function updateDisplay() {
         const currentTime = Date.now();
         const timeLeft = END_TIME - currentTime;
 
         if (timeLeft <= 0) {
-            if (timer) clearInterval(timer);
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -64,6 +61,7 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
+            stopTimer();
             return;
         }
 
@@ -76,11 +74,22 @@ function updateTimer() {
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
 
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
     // Обновляем время сразу при загрузке
     updateDisplay();
     
     // Обновляем каждую секунду
-    timer = setInterval(updateDisplay, 1000);
+    let timerInterval = setInterval(updateDisplay, 1000);
+
+    // Очистка таймера при уничтожении компонента
+    return stopTimer;
 }
 
+// Запускаем таймер
 updateTimer(); 
