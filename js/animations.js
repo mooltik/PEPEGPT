@@ -1,10 +1,3 @@
-// Custom cursor effect
-document.addEventListener('mousemove', (e) => {
-    const cursor = document.querySelector('.cursor-glow');
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-});
-
 // Matrix rain effect
 function createMatrixRain() {
     const rain = document.createElement('div');

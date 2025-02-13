@@ -318,45 +318,6 @@
     animation: triangle-rotate 20s linear infinite;
 }
 
-/* Add cool cursor effect */
-body {
-    cursor: none;
-}
-
-.cursor-glow {
-    width: 20px;
-    height: 20px;
-    background: var(--neon-green);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    z-index: 9999;
-    transition: transform 0.2s;
-}
-
-.cursor-glow::before {
-    content: '';
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--neon-green);
-    border-radius: 50%;
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    animation: cursor-pulse 1.5s infinite;
-}
-
-@keyframes cursor-pulse {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
-}
-
-@keyframes shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
 /* Add matrix code rain effect */
 .matrix-rain {
     position: fixed;
