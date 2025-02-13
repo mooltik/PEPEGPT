@@ -39,29 +39,19 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Фиксированное время окончания для всех пользователей (74 часа от определенного момента)
-    const END_TIME = 1708974000000; // Это конкретный timestamp, например 26 февраля 2024, 20:00 UTC
+    // Фиксированная дата старта таймера - например, 26 февраля 2024, 12:00:00 UTC
+    const START_TIME = 1708945200000; // Это конкретный момент времени в UTC
+    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
+    const END_TIME = START_TIME + DURATION;
     
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
-    
-    // Показываем дату окончания
-    const endDate = new Date(END_TIME);
-    const endTimeString = endDate.toLocaleString(undefined, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZoneName: 'short'
-    });
-    contractText.textContent = `Contract will appear here when timer ends (${endTimeString})`;
 
     function updateDisplay() {
-        const now = Date.now();
-        const timeLeft = END_TIME - now;
+        const currentTime = Date.now();
+        const timeLeft = END_TIME - currentTime;
 
         if (timeLeft <= 0) {
             clearInterval(timer);
@@ -75,11 +65,11 @@ function updateTimer() {
             return;
         }
 
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        hoursElement.textContent = hours.toString().padStart(2, '0');
+        hoursElement.textContent = totalHours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
@@ -87,6 +77,7 @@ function updateTimer() {
     // Обновляем время сразу при загрузке
     updateDisplay();
     
+    // Обновляем каждую секунду
     const timer = setInterval(updateDisplay, 1000);
 }
 
