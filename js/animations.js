@@ -39,17 +39,82 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Fixed timestamp for February 16, 2025, 20:00:00 UTC
-    const END_TIMESTAMP = 1739798400000;
+    // Конечная дата: 16 февраля 2025, 20:00:00 UTC
+    const targetTime = {
+        year: 2025,
+        month: 2,  // февраль
+        day: 16,
+        hour: 20,
+        minute: 0
+    };
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
-    // Показываем дату окончания в локальном времени пользователя
-    const endDate = new Date(END_TIMESTAMP);
-    const endTimeString = endDate.toLocaleString(undefined, {
+    function getCurrentUTCTime() {
+        const now = new Date();
+        return {
+            year: now.getUTCFullYear(),
+            month: now.getUTCMonth() + 1,
+            day: now.getUTCDate(),
+            hour: now.getUTCHours(),
+            minute: now.getUTCMinutes(),
+            second: now.getUTCSeconds()
+        };
+    }
+    
+    function calculateTimeLeft(current, target) {
+        // Конвертируем всё в минуты для простоты расчетов
+        const targetMinutes = (target.year * 525600) + // минут в году
+                            (target.month * 43800) +   // минут в месяце (в среднем)
+                            (target.day * 1440) +      // минут в дне
+                            (target.hour * 60) +       // часы в минуты
+                            target.minute;
+        
+        const currentMinutes = (current.year * 525600) +
+                             (current.month * 43800) +
+                             (current.day * 1440) +
+                             (current.hour * 60) +
+                             current.minute;
+        
+        const minutesLeft = targetMinutes - currentMinutes;
+        const hoursLeft = Math.floor(minutesLeft / 60);
+        const minsLeft = minutesLeft % 60;
+        const secsLeft = current.second;
+        
+        return {
+            hours: hoursLeft,
+            minutes: minsLeft,
+            seconds: 60 - secsLeft
+        };
+    }
+
+    function updateDisplay() {
+        const currentTime = getCurrentUTCTime();
+        const timeLeft = calculateTimeLeft(currentTime, targetTime);
+
+        if (timeLeft.hours <= 0 && timeLeft.minutes <= 0 && timeLeft.seconds <= 0) {
+            clearInterval(timer);
+            hoursElement.textContent = '00';
+            minutesElement.textContent = '00';
+            secondsElement.textContent = '00';
+            contractText.textContent = '11111111111111111111';
+            contractText.style.color = 'var(--neon-green)';
+            contractText.style.fontSize = '1.2rem';
+            contractText.style.fontWeight = 'bold';
+            return;
+        }
+
+        hoursElement.textContent = Math.max(0, timeLeft.hours).toString().padStart(2, '0');
+        minutesElement.textContent = Math.max(0, timeLeft.minutes).toString().padStart(2, '0');
+        secondsElement.textContent = Math.max(0, timeLeft.seconds).toString().padStart(2, '0');
+    }
+
+    // Показываем локальное время окончания
+    const localEndTime = new Date(Date.UTC(targetTime.year, targetTime.month - 1, targetTime.day, targetTime.hour, targetTime.minute));
+    const endTimeString = localEndTime.toLocaleString(undefined, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -62,34 +127,7 @@ function updateTimer() {
     // Обновляем время сразу при загрузке
     updateDisplay();
     
-    const timer = setInterval(() => {
-        updateDisplay();
-    }, 1000);
-    
-    function updateDisplay() {
-        const timeLeft = END_TIMESTAMP - Date.now();
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            hoursElement.textContent = '00';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
-            contractText.textContent = '11111111111111111111';
-            contractText.style.color = 'var(--neon-green)';
-            contractText.style.fontSize = '1.2rem';
-            contractText.style.fontWeight = 'bold';
-            return;
-        }
-
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        
-        hoursElement.textContent = (days * 24 + hours).toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-        secondsElement.textContent = seconds.toString().padStart(2, '0');
-    }
+    const timer = setInterval(updateDisplay, 1000);
 }
 
 updateTimer(); 
