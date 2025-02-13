@@ -39,21 +39,19 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Устанавливаем время старта на текущий момент
-    const START_TIME = Date.now();
-    const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
-    const END_TIME = START_TIME + DURATION;
-    
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    function updateDisplay() {
-        const currentTime = Date.now();
-        const timeLeft = END_TIME - currentTime;
+    // Фиксированное время окончания для всех пользователей
+    const END_TIME = 1709049600000; // Например, 27 февраля 2024, 20:00:00 UTC
 
-        if (timeLeft <= 0) {
+    function updateDisplay() {
+        const now = Date.now();
+        const timeLeft = Math.max(0, END_TIME - now);
+
+        if (timeLeft === 0) {
             hoursElement.textContent = '00';
             minutesElement.textContent = '00';
             secondsElement.textContent = '00';
@@ -61,35 +59,26 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            stopTimer();
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
             return;
         }
 
-        const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        hoursElement.textContent = totalHours.toString().padStart(2, '0');
+        hoursElement.textContent = hours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
 
-    function stopTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-    }
-
-    // Обновляем время сразу при загрузке
     updateDisplay();
-    
-    // Обновляем каждую секунду
-    let timerInterval = setInterval(updateDisplay, 1000);
-
-    // Очистка таймера при уничтожении компонента
-    return stopTimer;
+    const intervalId = setInterval(updateDisplay, 1000);
 }
 
-// Запускаем таймер
+// Запускаем все анимации
+createMatrixRain();
+updatePrice();
 updateTimer(); 
