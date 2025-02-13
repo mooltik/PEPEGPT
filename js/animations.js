@@ -39,27 +39,8 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Фиксированная дата окончания: 16 февраля 2025, 20:00:00 UTC
-    const END_DATE = {
-        UTC: {
-            year: 2025,
-            month: 1, // 0-11, где 1 это февраль
-            day: 16,
-            hours: 20,
-            minutes: 0,
-            seconds: 0
-        }
-    };
-    
-    // Создаем дату окончания в UTC
-    const endDate = new Date(Date.UTC(
-        END_DATE.UTC.year,
-        END_DATE.UTC.month,
-        END_DATE.UTC.day,
-        END_DATE.UTC.hours,
-        END_DATE.UTC.minutes,
-        END_DATE.UTC.seconds
-    ));
+    const endDate = new Date('2025-02-16T20:00:00Z'); // Z означает UTC
+    const endTimestamp = endDate.getTime();
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
@@ -85,17 +66,7 @@ function updateTimer() {
     }, 1000);
     
     function updateDisplay() {
-        const now = new Date();
-        const nowUTC = Date.UTC(
-            now.getUTCFullYear(),
-            now.getUTCMonth(),
-            now.getUTCDate(),
-            now.getUTCHours(),
-            now.getUTCMinutes(),
-            now.getUTCSeconds()
-        );
-        
-        const timeLeft = endDate.getTime() - nowUTC;
+        const timeLeft = endTimestamp - Date.now();
 
         if (timeLeft <= 0) {
             clearInterval(timer);
