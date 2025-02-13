@@ -89,4 +89,61 @@ footer {
     text-decoration: none;
     margin: 0 1rem;
     position: relative;
+}
+
+/* Add these new styles */
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--cyber-blue);
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 80%;
+}
+
+.pepe-container {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+#how-it-works {
+    padding: 4rem 2rem;
+    background: linear-gradient(45deg, rgba(10,10,10,0.9), rgba(20,20,20,0.9));
+}
+
+.professor-pepe {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero {
+        padding: 1rem;
+    }
+    
+    .glitch-text {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .roadmap-timeline {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+    
+    .milestone {
+        width: 80%;
+        text-align: center;
+    }
+    
+    .pepe-container {
+        width: 200px;
+        height: 200px;
+    }
 } 

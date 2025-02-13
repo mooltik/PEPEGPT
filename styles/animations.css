@@ -61,4 +61,38 @@
 
 .fire-link {
     animation: fire 2s infinite;
+}
+
+/* Add these new animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px var(--neon-green); }
+    50% { box-shadow: 0 0 20px var(--neon-green); }
+    100% { box-shadow: 0 0 5px var(--neon-green); }
+}
+
+.crystal-ball {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.milestone:hover {
+    animation: glow 1.5s infinite;
+}
+
+/* Add parallax effect */
+.space-background {
+    position: relative;
+    transform: translateZ(-1px) scale(2);
+    z-index: -1;
+}
+
+/* Add neon border effect */
+.chat-window {
+    border: 2px solid var(--neon-green);
+    animation: glow 2s infinite;
 } 
