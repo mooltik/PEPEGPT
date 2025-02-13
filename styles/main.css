@@ -193,26 +193,6 @@ footer {
     left: 75px;
 }
 
-/* Remove old roadmap styles */
-.roadmap-timeline {
-    display: flex;
-    justify-content: space-around;
-    padding: 4rem 2rem;
-}
-
-.milestone {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.milestone:hover {
-    background: var(--neon-green);
-    color: var(--dark-bg);
-}
-
 /* Add new roadmap styles */
 #roadmap {
     padding: 4rem 2rem;
