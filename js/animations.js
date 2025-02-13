@@ -71,7 +71,7 @@ function updateTimer() {
             contractText.style.color = 'var(--neon-green)';
             contractText.style.fontSize = '1.2rem';
             contractText.style.fontWeight = 'bold';
-            stopTimer(); // Используем функцию остановки таймера
+            stopTimer(); // Используем функцию остановки таймера вместо intervalId
             return;
         }
 
