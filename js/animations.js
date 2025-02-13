@@ -68,44 +68,13 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    let serverOffset = 0;
-    let timerInterval = null;
-
-    // Фиксированное время старта для всех (используем localStorage)
-    if (!localStorage.getItem('startTime')) {
-        // Если время старта не установлено, устанавливаем его
-        const START_TIME = 1709064000000; // 27 февраля 2024, 20:00:00 UTC
-        localStorage.setItem('startTime', START_TIME.toString());
-    }
-
-    const START_TIME = parseInt(localStorage.getItem('startTime'));
+    // Устанавливаем фиксированное время старта (например, 27 февраля 2024, 20:00:00 UTC)
+    const START_TIME = new Date('2024-03-01T20:00:00Z').getTime(); // 1 марта 2024, 20:00 UTC
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
 
-    function synchronizeTime() {
-        fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
-            .then(response => response.json())
-            .then(data => {
-                const serverTime = new Date(data.utc_datetime).getTime();
-                const localTime = Date.now();
-                serverOffset = serverTime - localTime;
-                
-                if (!timerInterval) {
-                    updateDisplay();
-                    timerInterval = setInterval(updateDisplay, 1000);
-                }
-            })
-            .catch(error => {
-                console.error('Time sync failed:', error);
-                if (!timerInterval) {
-                    updateDisplay();
-                    timerInterval = setInterval(updateDisplay, 1000);
-                }
-            });
-    }
-
     function updateDisplay() {
-        const currentTime = Date.now() + serverOffset;
+        const currentTime = Date.now();
         const timeLeft = END_TIME - currentTime;
 
         if (timeLeft <= 0) {
@@ -121,24 +90,20 @@ function updateTimer() {
             return;
         }
 
-        const totalHours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        hoursElement.textContent = totalHours.toString().padStart(2, '0');
+        hoursElement.textContent = hours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
-
-        // Отладочная информация
-        console.log('Server offset:', serverOffset);
-        console.log('Current time:', new Date(currentTime).toUTCString());
-        console.log('End time:', new Date(END_TIME).toUTCString());
-        console.log('Time left:', timeLeft / 1000 / 60 / 60, 'hours');
     }
 
-    synchronizeTime();
-    setInterval(synchronizeTime, 5 * 60 * 1000);
+    // Обновляем каждую секунду
+    updateDisplay();
+    const timerInterval = setInterval(updateDisplay, 1000);
 
+    // Возвращаем функцию очистки
     return () => {
         if (timerInterval) {
             clearInterval(timerInterval);
