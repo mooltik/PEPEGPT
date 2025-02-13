@@ -39,15 +39,22 @@ updatePrice();
 
 // Add timer functionality
 function updateTimer() {
-    // Set end time to February 16, 2025, 8:00 PM New York time
-    const endTime = new Date('2025-02-16T20:00:00-05:00').getTime();
+    // Set end time to February 16, 2025, 8:00 PM UTC
+    const endTime = Date.UTC(2025, 1, 16, 20, 0, 0);
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
     
+    // Обновляем время сразу при загрузке
+    updateDisplay();
+    
     const timer = setInterval(() => {
+        updateDisplay();
+    }, 1000);
+    
+    function updateDisplay() {
         const now = Date.now();
         const timeLeft = endTime - now;
 
@@ -81,7 +88,7 @@ function updateTimer() {
         hoursElement.textContent = (days * 24 + hours).toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
-    }, 1000);
+    }
 }
 
 updateTimer(); 
