@@ -68,8 +68,17 @@ function updateTimer() {
     const secondsElement = document.querySelector('.seconds');
     const contractText = document.querySelector('.contract-text');
 
-    // Устанавливаем фиксированное время старта (например, 27 февраля 2024, 20:00:00 UTC)
-    const START_TIME = new Date('2024-03-01T20:00:00Z').getTime(); // 1 марта 2024, 20:00 UTC
+    // Проверяем, есть ли сохраненное время старта
+    let START_TIME;
+    if (!localStorage.getItem('timerStartTime')) {
+        // Если нет, устанавливаем текущее время
+        START_TIME = Date.now();
+        localStorage.setItem('timerStartTime', START_TIME.toString());
+    } else {
+        // Если есть, используем сохраненное время
+        START_TIME = parseInt(localStorage.getItem('timerStartTime'));
+    }
+
     const DURATION = 74 * 60 * 60 * 1000; // 74 часа в миллисекундах
     const END_TIME = START_TIME + DURATION;
 
