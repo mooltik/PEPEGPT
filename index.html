@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="https://i.imgur.com/aeyWh0G.png" as="image">
+    <title>PepeGPT - When Memes Meet AI</title>
+    <style>
+      .pepe-logo {
+        width: 256px;
+        height: 256px;
+        object-fit: contain;
+        display: block;
+      }
+      #hero {
+        min-height: 100vh;
+      }
+      /* Оптимизируем анимацию сетки */
+      .bg-grid {
+        background-image: linear-gradient(rgba(50, 50, 50, 0.1) 1px, transparent 1px),
+                         linear-gradient(90deg, rgba(50, 50, 50, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        background-position: center center;
+        /* Используем transform3d для включения GPU-ускорения */
+        transform: translate3d(0, 0, 0);
+        /* Уменьшаем частоту обновления анимаций */
+        animation-duration: 2s;
+        will-change: transform;
+      }
+      /* Оптимизируем неоновые кнопки */
+      .neon-button, .neon-button-secondary {
+        transition: all 0.3s ease;
+        will-change: transform, box-shadow;
+      }
+      /* Оптимизируем изображения команды */
+      .team-member img {
+        width: 128px;
+        height: 128px;
+        object-fit: cover;
+        will-change: transform;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐸</text></svg>">
+  </head>
+  <body class="bg-black text-white">
+    <div id="app">
+      <!-- Social Links -->
+      <div class="social-links-top">
+        <a href="#" class="social-link">X</a>
+        <a href="#" class="social-link">Telegram</a>
+      </div>
+
+      <!-- Hero Section -->
+      <section id="hero" class="min-h-screen relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid"></div>
+        <div class="container mx-auto px-4 pt-32 relative z-10">
+          <div class="text-center space-y-12">
+            <div style="width: 256px; height: 256px; margin: 0 auto;">
+              <img 
+                src="https://i.imgur.com/aeyWh0G.png" 
+                alt="PepeGPT" 
+                class="pepe-logo"
+              >
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-gradient">PepeGPT</h1>
+            <p class="text-xl md:text-2xl text-green-400">When memes meet AI – a revolution is born!</p>
+            <p class="text-xl md:text-2xl text-green-400">CA: ?????????????????????????????</p>
+            <div class="space-x-8 pt-8">
+              <a href="./buy.html" class="neon-button">Buy Token</a>
+              <a href="./whitepaper.html" class="neon-button-secondary">Read Whitepaper</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Roadmap Section -->
+      <section id="roadmap" class="py-20 relative">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">Roadmap to the Moon</h2>
+          <div class="roadmap-container">
+            <div class="roadmap-item" data-phase="1">
+              <div class="phase-content">
+                <h3>🚀 Phase 1 - Rocket Launch</h3>
+                <p>Token creation, website launch</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-phase="2">
+              <div class="phase-content">
+                <h3>🐸 Phase 2 - Internet Takeover</h3>
+                <p>Memes, Twitter hype</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-phase="3">
+              <div class="phase-content">
+                <h3>🤖 Phase 3 - AI Integration</h3>
+                <p>AI-generated memes</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-phase="4">
+              <div class="phase-content">
+                <h3>🌕 Phase 4 - To the Moon!</h3>
+                <p>Mooning and Lamborghinis for all holders</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tokenomics Section -->
+      <section id="tokenomics" class="py-20 relative">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">Tokenomics</h2>
+          <div class="tokenomics-chart">
+            <div class="chart-segment" style="--percentage: 50%">
+              <span>50% - Memes and Fun</span>
+            </div>
+            <div class="chart-segment" style="--percentage: 30%">
+              <span>30% - Pepe Brotherhood Airdrop</span>
+            </div>
+            <div class="chart-segment" style="--percentage: 20%">
+              <span>20% - Frog Pond Investment Fund</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Section -->
+      <section id="team" class="py-20 relative">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">The Meme Team</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div class="team-member" data-quote="I didn't choose the meme life, the meme life chose me.">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="CEO Pepe" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">Pepe Nakamoto</h3>
+              <p class="text-green-400">CEO</p>
+            </div>
+            <div class="team-member" data-quote="Trust the code, not the FOMO.">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="AI Pepebrain" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">AI Pepebrain</h3>
+              <p class="text-green-400">CTO</p>
+            </div>
+            <div class="team-member" data-quote="BUY NOW OR REGRET LATER 🚀🔥">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="ShillMaster 9000" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">ShillMaster 9000</h3>
+              <p class="text-green-400">Marketing</p>
+            </div>
+            <div class="team-member" data-quote="If you don't hold, you can't fold.">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="FroggyVibes" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">FroggyVibes</h3>
+              <p class="text-green-400">Community Manager</p>
+            </div>
+            <div class="team-member" data-quote="It compiles? Ship it.">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="CodeToad" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">CodeToad</h3>
+              <p class="text-green-400">Lead Developer</p>
+            </div>
+            <div class="team-member" data-quote="Back in my day, 1 BTC was $1...">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="Old Money Pepe" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">Old Money Pepe</h3>
+              <p class="text-green-400">Advisor</p>
+            </div>
+            <div class="team-member" data-quote="When Lambo? When Moon? Always.">
+              <img src="https://i.imgur.com/aeyWh0G.png" alt="Moon Pepe" class="w-32 h-32 mx-auto rounded-full" loading="lazy">
+              <h3 class="text-xl font-bold mt-4">Moon Pepe</h3>
+              <p class="text-green-400">Mascot</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-8 relative">
+        <div class="container mx-auto px-4 text-center">
+          <p class="text-sm text-gray-500">© 2025 PepeGPT. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
